@@ -1,0 +1,28 @@
+let pi = 3.141
+
+let power (b: Number) (p: Number) =
+    if p <= 1 then
+        b
+    else
+        b * (power b (p - 1))  
+
+
+let factorial (a: Number) =
+    if a == 0 then
+        0
+    else 
+        a + (factorial (a - 1))
+
+// Estimate sine using the Taylor series so with can stay typed
+// http://en.wikipedia.org/wiki/Taylor_series
+
+let sine (b: Number) =
+
+    // Get a value between -pi +pi
+    let c = b % (2 * pi)
+    let a = c - pi
+
+    // Estimate using a Taylor polynomial
+    let sine = a - ((power a 3) / (factorial 3)) + ((power a 5) / (factorial 5)) - ((power a 7) / (factorial 7))
+    sine
+

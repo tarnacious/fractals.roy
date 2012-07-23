@@ -1,0 +1,31 @@
+// Generate a color palette RGB values. 
+//
+// Nice info on generating color palettes
+// http://krazydad.com/tutorials/makecolors.php
+//
+
+type RGB = { red: Number, green: Number, blue: Number }
+
+let prime_color_sequence (count: Number) (offset: Number) =
+    let frequency = 0.3
+    if count == 0 then
+        nil
+    else
+        // let index = ((sine ((count * frequency) + offset)) / 180 * 127) + 128
+        let index = ((Math.sin((count * frequency) + offset)) * 127) + 128
+        Cons (index) (prime_color_sequence (count - 1) offset)
+
+let zip_rgb (a: List Number) (b: List Number) (c: List Number) = 
+    match a
+        case Nil = nil
+        case (Cons a1 as) = match b
+                case Nil = nil
+                case (Cons b1 bs) = match c 
+                    case Nil = nil
+                    case (Cons c1 cs) = Cons { red: a1, green: b1, blue: c1 } (zip_rgb as bs cs)
+    
+let color_sequence a = 
+    let red = prime_color_sequence 64 0
+    let green = prime_color_sequence 64 2
+    let blue = prime_color_sequence 64 4
+    zip_rgb red green blue

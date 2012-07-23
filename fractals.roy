@@ -1,0 +1,57 @@
+let grid_points w h =
+    let fun p = { x: ((p - 1) % w), y: (Math.floor((p - 1) / w)) }
+    let points = map fun (count (h * w))
+    points
+
+let map_pixel_plot (pixel: Point) (pixels: Point) (plot: Point) (size: Point) =
+    add plot (multiply pixel (divide size pixels))   
+ 
+            
+let create_map anything =
+    
+    let pixels = { x: 80, y: 60 }
+    let plot_point = { x: -2.0, y: 1.0 }
+    let plot_size = { x: 3.0, y: -2.0 }
+    let colors = color_sequence(1)
+
+    let points = grid_points pixels.x pixels.y
+ 
+    let canvas = document.getElementById("canvas")
+    let context = canvas.getContext("2d")
+
+    let set_color p =
+        let color = atIndex (64 - (p % 64)) colors
+        set_fillStyle context (to_rgb color.red color.green color.blue)
+ 
+    let fun n =
+        let mapping = map_pixel_plot n pixels plot_point plot_size
+        let point = plot_mandelbrot_point mapping.x mapping.y
+        match point
+            case (Some p) = set_color p 
+            case None = set_fillStyle context "rgb(0,0,0)"
+
+        context.fillRect (n.x*4) (n.y*4) 4 4
+
+    let drawColor position = 
+        let color = atIndex (position % 64) colors
+        set_fillStyle context (to_rgb color.red color.red color.red)
+        context.fillRect (position*10) 0 10 10
+
+        set_fillStyle context (to_rgb color.green color.green color.green)
+        context.fillRect (position*10) 10 10 10
+
+        set_fillStyle context (to_rgb color.blue color.blue color.blue)
+        context.fillRect (position*10) 20 10 10
+
+        set_fillStyle context (to_rgb color.red color.green color.blue)
+        context.fillRect (position*10) 30 10 10
+
+    map fun points
+
+    //map drawColor (count 100)
+
+
+let start = (\_ ->
+    create_map 1
+)
+

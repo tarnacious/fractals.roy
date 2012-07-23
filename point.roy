@@ -1,0 +1,10 @@
+type Point = { x: Number, y: Number }
+
+let add (point: Point) (scale: Point) =
+    { x: point.x + scale.x, y: point.y + scale.y } 
+    
+let multiply (point: Point) (scale: Point) =
+    { x: point.x * scale.x, y: point.y * scale.y } 
+
+let divide (point: Point) (scale: Point) =
+    { x: point.x / scale.x, y: point.y / scale.y } 

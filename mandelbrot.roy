@@ -1,0 +1,19 @@
+let plot_function (z: Complex) (c: Complex) = 
+    add_complex (multiply_complex z z) c 
+     
+let has_escaped (z: Complex) = 
+    (mag_complex z) > 10000
+
+let recurse_mandelbrot_point (acc: Number) (z: Complex) (c: Complex) =
+    let point = plot_function z c
+    if acc > 20 then
+        None()
+    else
+        if (has_escaped point) then
+            Some(acc)
+        else
+            recurse_mandelbrot_point (acc + 1) point c
+
+let plot_mandelbrot_point (x: Number) (y: Number) =
+    recurse_mandelbrot_point 0 ({ real: 0.0, imag: 0.0 }) ({ real: x, imag: y })
+
